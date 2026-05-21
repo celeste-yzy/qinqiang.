@@ -3,28 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>秦腔 - 大秦之音，华夏正声</title>
+    <title>秦腔 - 西北大地的千年吼声</title>
     <style>
         :root {
-            --bg-deep: #1a0a0a;
-            --bg-dark: #2d1414;
-            --bg-medium: #3d1c1c;
-            --red-primary: #b5343a;
-            --red-bright: #d4443f;
-            --red-dark: #7a1f23;
+            --red: #b5343a;
+            --deep-red: #7a1f24;
             --gold: #c9a96e;
-            --gold-light: #e0c88a;
-            --gold-dark: #8b6f3f;
+            --light-gold: #e0c88a;
+            --dark: #1a1a1a;
+            --darker: #0d0d0d;
             --cream: #f5f0e8;
-            --text-light: #e8d5c8;
-            --text-muted: #c4a992;
-            --text-dark: #2c1810;
-            --white: #fefaf5;
-            --shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --shadow-gold: 0 4px 20px rgba(201, 169, 110, 0.3);
-            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-            --font-display: 'STSong', 'Songti SC', 'Noto Serif SC', 'SimSun', 'KaiTi', 'STKaiti', '楷体', '华文楷体', serif;
-            --font-body: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti', '华文细黑', sans-serif;
+            --paper: #faf6ed;
+            --text: #2c2416;
+            --text-light: #6b5e4a;
+            --white: #ffffff;
+            --shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.2);
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+            --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --container-max: 1500px;
         }
 
         * {
@@ -35,238 +32,424 @@
 
         html {
             scroll-behavior: smooth;
-            font-size: 16px;
+            scroll-padding-top: 80px;
         }
 
         body {
-            font-family: var(--font-body);
-            background: var(--bg-deep);
-            color: var(--text-light);
+            font-family: 'Noto Serif SC', 'STSong', 'SimSun', 'Songti SC', 'KaiTi', 'STKaiti', '楷体', '华文楷体', serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.8;
             overflow-x: hidden;
-            line-height: 1.7;
+            cursor: default;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            min-width: 1100px;
         }
 
-        /* ============ 背景装饰 ============ */
-        body::before {
-            content: '';
+        /* ============ 自定义光标 ============ */
+        .custom-cursor {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--red);
+            border-radius: 50%;
             pointer-events: none;
-            z-index: -1;
-            background:
-                radial-gradient(ellipse at 20% 20%, rgba(180, 50, 45, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 60%, rgba(201, 169, 110, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(180, 50, 45, 0.05) 0%, transparent 50%);
+            z-index: 99999;
+            transition: transform 0.15s ease-out, width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
         }
-
-        /* 背景纹理 */
-        .bg-texture {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -2;
-            opacity: 0.03;
-            background-image: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(201, 169, 110, 0.5) 2px,
-                    rgba(201, 169, 110, 0.5) 2.5px),
-                repeating-linear-gradient(90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(201, 169, 110, 0.5) 2px,
-                    rgba(201, 169, 110, 0.5) 2.5px);
+        .custom-cursor.hovering {
+            width: 48px;
+            height: 48px;
+            border-color: var(--gold);
+            background: rgba(201, 169, 110, 0.18);
+            transform: translate(-50%, -50%) scale(1.2);
         }
-
-        /* ============ 顶部帷幕装饰 ============ */
-        .stage-curtain-top {
-            position: fixed;
-            top: -5px;
-            left: -5%;
-            width: 110%;
-            height: 70px;
-            pointer-events: none;
-            z-index: 999;
-            background: linear-gradient(180deg,
-                    #3d0c0c 0%, #5a1515 15%, #7a1f23 30%, #8b2025 45%,
-                    #6b181c 60%, #4a1014 75%, #2d0a0c 90%, transparent 100%);
-            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.7);
-            border-bottom: 3px solid #c9a96e;
-            animation: curtainGlow 4s ease-in-out infinite;
-        }
-        @keyframes curtainGlow {
-            0%,
-            100% {
-                border-bottom-color: #c9a96e;
-                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.7), 0 2px 15px rgba(201, 169, 110, 0.2);
-            }
-            50% {
-                border-bottom-color: #e0c88a;
-                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.7), 0 2px 25px rgba(201, 169, 110, 0.45);
-            }
-        }
-        .stage-curtain-top::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 16px;
-            background: repeating-linear-gradient(90deg,
-                    transparent,
-                    transparent 18px,
-                    #c9a96e 18px,
-                    #c9a96e 22px,
-                    transparent 22px,
-                    transparent 40px);
-            opacity: 0.7;
+        .custom-cursor.clicking {
+            transform: translate(-50%, -50%) scale(0.65);
+            border-color: #fff;
+            background: rgba(181, 52, 58, 0.45);
         }
 
         /* ============ 导航栏 ============ */
-        .main-nav {
+        .navbar {
             position: fixed;
-            top: 55px;
+            top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            background: rgba(13, 13, 13, 0.93);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(201, 169, 110, 0.22);
+            transition: all 0.4s var(--transition);
+            padding: 0 3rem;
+            height: 78px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 6px;
-            padding: 10px 20px;
-            flex-wrap: wrap;
-            background: rgba(20, 8, 8, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(201, 169, 110, 0.25);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s var(--transition-smooth);
         }
-        .main-nav.scrolled {
-            top: 0;
-            background: rgba(20, 8, 8, 0.95);
-            padding: 8px 20px;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+        .navbar.scrolled {
+            height: 60px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border-bottom-color: rgba(201, 169, 110, 0.5);
         }
-        .nav-item {
-            position: relative;
-            padding: 9px 18px;
-            font-family: var(--font-display);
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            letter-spacing: 0.05em;
-            transition: all 0.35s var(--transition-smooth);
-            white-space: nowrap;
-            border-radius: 4px;
+        .nav-inner {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s var(--transition);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             text-decoration: none;
-            outline: none;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            color: var(--light-gold);
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+            flex-shrink: 0;
         }
-        .nav-item:hover {
-            color: var(--gold-light);
-            background: rgba(201, 169, 110, 0.08);
-            transform: translateY(-1px);
-        }
-        .nav-item.active {
-            color: #fff;
-            background: rgba(180, 50, 45, 0.35);
-            font-weight: bold;
-            box-shadow: 0 0 20px rgba(180, 50, 45, 0.3);
-        }
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 3px;
-            background: var(--gold);
-            border-radius: 2px;
-            box-shadow: 0 0 10px rgba(201, 169, 110, 0.7);
-        }
-        .nav-item .nav-icon {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 2px;
-            text-align: center;
-        }
-        .nav-item .nav-label {
-            display: block;
-            font-size: 0.78rem;
-            letter-spacing: 0.06em;
-        }
-
-        /* 移动端导航汉堡按钮 */
-        .nav-toggle-btn {
-            display: none;
-            position: fixed;
-            top: 60px;
-            right: 15px;
-            z-index: 1001;
+        .nav-logo .logo-icon {
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            background: rgba(180, 50, 45, 0.85);
-            border: 2px solid var(--gold);
-            cursor: pointer;
-            flex-direction: column;
+            background: linear-gradient(135deg, var(--red), var(--deep-red));
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            font-size: 1.4rem;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(181, 52, 58, 0.55);
+            animation: logoGlow 2.5s ease-in-out infinite;
+            transition: all 0.3s;
         }
-        .nav-toggle-btn span {
-            display: block;
-            width: 20px;
+        @keyframes logoGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(181, 52, 58, 0.55);
+            }
+            50% {
+                box-shadow: 0 0 45px rgba(201, 169, 110, 0.85), 0 0 65px rgba(181, 52, 58, 0.35);
+            }
+        }
+        .nav-logo:hover .logo-icon {
+            transform: rotate(-12deg) scale(1.1);
+            box-shadow: 0 0 55px rgba(201, 169, 110, 1);
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 6px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #c5c5c5;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            position: relative;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-radius: 6px;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 55%;
             height: 2px;
-            background: var(--gold-light);
-            border-radius: 1px;
-            transition: all 0.3s ease;
+            background: var(--gold);
+            transition: transform 0.35s var(--bounce);
+            border-radius: 2px;
         }
-        .nav-toggle-btn.open span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
+        .nav-links li a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
         }
-        .nav-toggle-btn.open span:nth-child(2) {
-            opacity: 0;
+        .nav-links li a:hover::after {
+            transform: translateX(-50%) scaleX(1);
         }
-        .nav-toggle-btn.open span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
+        .nav-links li a.active {
+            color: var(--light-gold);
+            font-weight: 700;
+        }
+        .nav-links li a.active::after {
+            transform: translateX(-50%) scaleX(1);
+            background: var(--light-gold);
+            height: 2.5px;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 8px;
+        }
+        .hamburger span {
+            width: 28px;
+            height: 2.5px;
+            background: var(--light-gold);
+            border-radius: 3px;
+            transition: all 0.35s var(--transition);
         }
 
-        /* ============ 页面容器 ============ */
-        .page-container {
-            padding-top: 140px;
+        /* ============ 英雄区域 (首页) - 横版左右布局 ============ */
+        .hero {
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(ellipse at 35% 50%, #1a0808 0%, #080000 30%, #000000 80%);
+            overflow: hidden;
+            padding: 100px 3rem 60px;
         }
-        .page {
-            display: none;
-            animation: pageFadeIn 0.55s var(--transition-smooth) forwards;
-            padding: 20px 30px 60px;
-            max-width: 1200px;
+        .hero-bg-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-bg-particles .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: floatUp 7s infinite ease-in;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(105vh) scale(0);
+            }
+            12% {
+                opacity: 0.85;
+            }
+            78% {
+                opacity: 0.25;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-8vh) scale(1.6);
+            }
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(181, 52, 58, 0.13) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 45%, rgba(201, 169, 110, 0.08) 0%, transparent 55%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: var(--container-max);
             margin: 0 auto;
-            min-height: 70vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 60px;
         }
-        .page.active {
-            display: block;
+        .hero-text {
+            flex: 1 1 55%;
         }
-        @keyframes pageFadeIn {
+        .hero-visual {
+            flex: 0 0 42%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInRight 1s ease-out 0.5s both;
+        }
+        .hero-visual .hero-placeholder-img {
+            width: 100%;
+            max-width: 520px;
+            aspect-ratio: 4/3;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(181, 52, 58, 0.35), 0 0 120px rgba(201, 169, 110, 0.15);
+            border: 2px solid rgba(201, 169, 110, 0.3);
+            transition: all 0.5s var(--bounce);
+            background: #1a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-visual .hero-placeholder-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 80px rgba(181, 52, 58, 0.5), 0 0 150px rgba(201, 169, 110, 0.25);
+            border-color: rgba(201, 169, 110, 0.6);
+        }
+        .hero-visual .hero-placeholder-img svg {
+            width: 100%;
+            height: 100%;
+        }
+        @keyframes fadeInRight {
             from {
                 opacity: 0;
-                transform: translateY(25px);
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .hero-subtitle-top {
+            font-size: 0.95rem;
+            letter-spacing: 9px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+            animation: fadeInUp 1s ease-out;
+        }
+        .hero-title {
+            font-size: clamp(3.8rem, 6vw, 6.5rem);
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 8px;
+            line-height: 1.08;
+            margin-bottom: 0.2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            text-shadow: 0 0 70px rgba(181, 52, 58, 0.65), 0 0 140px rgba(181, 52, 58, 0.25);
+        }
+        .hero-title .accent {
+            color: var(--light-gold);
+            display: inline-block;
+            animation: titleShine 3s ease-in-out infinite;
+        }
+        @keyframes titleShine {
+            0%,
+            100% {
+                text-shadow: 0 0 25px rgba(224, 200, 138, 0.45);
+            }
+            50% {
+                text-shadow: 0 0 55px rgba(224, 200, 138, 0.9), 0 0 90px rgba(201, 169, 110, 0.5);
+            }
+        }
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: #d4c5a9;
+            letter-spacing: 5px;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.35s both;
+            font-style: italic;
+        }
+        .hero-desc {
+            font-size: 1.05rem;
+            color: #b8a88a;
+            max-width: 580px;
+            line-height: 1.9;
+            margin-bottom: 2.2rem;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.65s both;
+        }
+        .btn {
+            padding: 14px 38px;
+            border-radius: 50px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s var(--bounce);
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            font-family: inherit;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--red), var(--deep-red));
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(181, 52, 58, 0.45);
+            border: 2px solid transparent;
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 45px rgba(181, 52, 58, 0.65);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--light-gold);
+            border: 2px solid var(--gold);
+        }
+        .btn-outline:hover {
+            background: rgba(201, 169, 110, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(201, 169, 110, 0.3);
+            color: #fff;
+            border-color: #fff;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            pointer-events: none;
+        }
+        .btn:active::after {
+            width: 350px;
+            height: 350px;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounceDown 2s ease-in-out infinite;
+            z-index: 3;
+            cursor: pointer;
+        }
+        .scroll-indicator span {
+            display: block;
+            width: 28px;
+            height: 28px;
+            border-right: 2px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+            transform: rotate(45deg);
+            opacity: 0.7;
+        }
+        @keyframes bounceDown {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(16px);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -274,1047 +457,1292 @@
             }
         }
 
-        /* ============ 首页样式 ============ */
-        .home-hero {
-            text-align: center;
-            padding: 40px 20px;
+        /* ============ 详情页通用样式 ============ */
+        .detail-page {
+            min-height: 100vh;
+            padding: 90px 3rem 70px;
             position: relative;
+            overflow: hidden;
         }
-        .home-hero .hero-emblem {
+        .detail-page:nth-child(odd) {
+            background: var(--paper);
+        }
+        .detail-page:nth-child(even) {
+            background: #f0ebe0;
+        }
+        .section-container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+        .section-tag {
             display: inline-block;
-            font-size: 5rem;
-            animation: emblemFloat 3s ease-in-out infinite;
-            filter: drop-shadow(0 8px 24px rgba(180, 50, 45, 0.5));
-            line-height: 1;
+            padding: 6px 22px;
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            color: var(--red);
+            font-size: 0.82rem;
+            letter-spacing: 4px;
+            margin-bottom: 14px;
+            background: rgba(201, 169, 110, 0.07);
         }
-        @keyframes emblemFloat {
+        .section-title {
+            font-size: clamp(2.2rem, 3.5vw, 2.8rem);
+            font-weight: 900;
+            color: var(--dark);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 55px;
+            height: 3px;
+            background: var(--red);
+            border-radius: 3px;
+        }
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            margin-top: 18px;
+        }
+
+        /* ============ 详情页1：历史渊源 - 横向时间轴 ============ */
+        .history-horizontal {
+            display: flex;
+            gap: 0;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            padding-top: 40px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+        .history-horizontal::before {
+            content: '';
+            position: absolute;
+            top: 58px;
+            left: 8%;
+            right: 8%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+            border-radius: 3px;
+            z-index: 0;
+        }
+        .timeline-node {
+            flex: 0 0 240px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            cursor: default;
+            transition: all 0.4s var(--bounce);
+            padding: 0 10px;
+        }
+        .timeline-node:hover {
+            transform: translateY(-10px);
+        }
+        .timeline-node .node-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin: 0 auto 18px;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 5px var(--red);
+            transition: all 0.4s;
+            position: relative;
+            z-index: 1;
+        }
+        .timeline-node:hover .node-dot {
+            background: var(--red);
+            box-shadow: 0 0 0 8px rgba(181, 52, 58, 0.35), 0 0 0 5px var(--red);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
             0%,
             100% {
-                transform: translateY(0);
+                box-shadow: 0 0 0 5px var(--red), 0 0 0 8px rgba(181, 52, 58, 0.35);
             }
             50% {
-                transform: translateY(-14px);
+                box-shadow: 0 0 0 9px var(--red), 0 0 0 22px rgba(181, 52, 58, 0);
             }
         }
-        .home-hero .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 7vw, 5.5rem);
-            font-weight: bold;
-            color: #fff;
-            letter-spacing: 0.12em;
-            margin: 10px 0;
-            text-shadow: 0 0 40px rgba(201, 169, 110, 0.6), 0 4px 8px rgba(0, 0, 0, 0.6);
-            line-height: 1.2;
-        }
-        .home-hero .hero-subtitle {
-            font-family: var(--font-display);
-            font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-            color: var(--gold-light);
-            letter-spacing: 0.2em;
-            margin-bottom: 8px;
-        }
-        .home-hero .hero-desc {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            margin: 16px auto 30px;
-            line-height: 1.8;
-        }
-        .home-hero .hero-divider {
-            width: 120px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 0 auto 20px;
-            border-radius: 1px;
-        }
-
-        /* 首页导航卡片 */
-        .home-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 18px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .home-card {
-            background: linear-gradient(160deg, rgba(45, 20, 20, 0.85), rgba(30, 10, 10, 0.9));
-            border: 1px solid rgba(201, 169, 110, 0.2);
-            border-radius: 12px;
-            padding: 24px 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .home-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--gold);
-            box-shadow: var(--shadow-gold), 0 12px 35px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(160deg, rgba(60, 25, 25, 0.9), rgba(40, 12, 12, 0.95));
-        }
-        .home-card:active {
-            transform: scale(0.96);
-            transition: all 0.15s ease;
-        }
-        .home-card .card-icon {
-            font-size: 2.8rem;
-            display: block;
-            margin-bottom: 10px;
-            transition: transform 0.4s var(--transition-smooth);
-        }
-        .home-card:hover .card-icon {
-            transform: scale(1.15);
-        }
-        .home-card .card-title {
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            color: #fff;
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
-        }
-        .home-card .card-hint {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 0.04em;
-        }
-        .home-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(201, 169, 110, 0.06) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-        .home-card:hover::before {
-            opacity: 1;
-        }
-
-        /* ============ 详情页通用样式 ============ */
-        .page-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .page-header .page-icon {
-            font-size: 3.2rem;
-            display: block;
+        .timeline-node .node-year {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--red);
+            letter-spacing: 2px;
             margin-bottom: 6px;
         }
-        .page-header h2 {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            color: #fff;
-            letter-spacing: 0.08em;
-            margin-bottom: 6px;
-            text-shadow: 0 0 25px rgba(201, 169, 110, 0.4);
-        }
-        .page-header .page-subtitle {
-            color: var(--gold-light);
+        .timeline-node .node-title {
             font-size: 1rem;
-            letter-spacing: 0.1em;
-            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
         }
-        .page-header .divider-line {
-            width: 80px;
-            height: 2px;
-            background: var(--gold);
-            margin: 12px auto 0;
-            border-radius: 1px;
-            opacity: 0.7;
+        .timeline-node .node-desc {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            background: #fff;
+            padding: 16px 14px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s;
+            border: 1px solid transparent;
         }
-
-        /* 内容区块 */
-        .content-block {
-            background: rgba(35, 15, 15, 0.6);
-            border: 1px solid rgba(201, 169, 110, 0.15);
+        .timeline-node:hover .node-desc {
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(201, 169, 110, 0.4);
+        }
+        .history-img-row {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .history-img-card {
+            flex: 0 1 300px;
             border-radius: 14px;
-            padding: 28px;
-            margin-bottom: 24px;
-            transition: all 0.35s ease;
-            position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.5s var(--transition);
+            cursor: pointer;
+            background: #fff;
+            text-align: center;
         }
-        .content-block:hover {
-            border-color: rgba(201, 169, 110, 0.35);
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+        .history-img-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: var(--shadow-lg);
         }
-        .content-block h3 {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
-            color: var(--gold-light);
-            margin-bottom: 10px;
-            letter-spacing: 0.04em;
-        }
-        .content-block p {
-            color: var(--text-muted);
-            line-height: 1.85;
-            font-size: 0.98rem;
-        }
-        .content-block .highlight {
-            color: var(--gold-light);
-            font-weight: bold;
-        }
-
-        /* 图文搭配 - 图片占位 */
-        .image-placeholder {
+        .history-img-card .img-placeholder {
             width: 100%;
-            aspect-ratio: 16/9;
-            max-height: 380px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3d1c1c 0%, #5a2525 25%, #4a1a1a 50%, #3d1515 75%, #2d1010 100%);
+            aspect-ratio: 4/3;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 5rem;
-            color: rgba(201, 169, 110, 0.4);
-            border: 2px dashed rgba(201, 169, 110, 0.25);
-            position: relative;
             overflow: hidden;
-            transition: all 0.5s ease;
+            transition: transform 0.6s;
         }
-        .image-placeholder::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center, rgba(201, 169, 110, 0.08) 0%, transparent 70%);
-            pointer-events: none;
+        .history-img-card:hover .img-placeholder {
+            transform: scale(1.06);
         }
-        .image-placeholder.small {
-            aspect-ratio: 1/1;
-            max-height: 200px;
-            font-size: 3.5rem;
+        .history-img-card .img-placeholder svg {
+            width: 100%;
+            height: 100%;
         }
-        .image-placeholder.portrait {
-            aspect-ratio: 3/4;
-            max-height: 350px;
-            font-size: 4rem;
+        .history-img-caption {
+            padding: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
-        /* 双栏布局 */
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            align-items: center;
-        }
-        .three-col {
+        /* ============ 详情页2：艺术特色 - 横版3列 ============ */
+        .feature-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 26px;
         }
-        .four-col {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        /* 时间线 */
-        .timeline {
+        .feature-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 34px 26px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.5s var(--bounce);
+            cursor: pointer;
             position: relative;
-            padding-left: 40px;
-            border-left: 2px solid rgba(201, 169, 110, 0.3);
-            margin-left: 20px;
+            overflow: hidden;
+            border: 1px solid transparent;
         }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 28px;
-            padding-left: 20px;
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--gold);
         }
-        .timeline-item::before {
+        .feature-card .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 14px;
+            display: block;
+            transition: transform 0.5s var(--bounce);
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(-6deg);
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            color: var(--red);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.75;
+            font-size: 0.9rem;
+        }
+        .feature-card::before {
             content: '';
             position: absolute;
-            left: -47px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            background: var(--red-bright);
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 12px rgba(180, 50, 45, 0.6);
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.13) 0%, transparent 70%);
+            transition: all 0.5s;
+            pointer-events: none;
         }
-        .timeline-item .timeline-year {
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            font-weight: bold;
-            letter-spacing: 0.05em;
-        }
-        .timeline-item p {
-            color: var(--text-muted);
-            margin-top: 4px;
-            font-size: 0.93rem;
+        .feature-card:hover::before {
+            top: -20px;
+            right: -20px;
+            width: 160px;
+            height: 160px;
         }
 
-        /* 卡片 */
-        .info-card {
-            background: rgba(40, 18, 18, 0.7);
-            border: 1px solid rgba(201, 169, 110, 0.18);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.35s var(--transition-smooth);
-            cursor: default;
+        /* ============ 详情页3：经典剧目 - 3列网格 ============ */
+        .repertoire-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 26px;
         }
-        .info-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--gold);
-            box-shadow: var(--shadow-gold);
-            background: rgba(50, 22, 22, 0.8);
-        }
-        .info-card .card-emoji {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: 8px;
-        }
-        .info-card h4 {
-            font-family: var(--font-display);
-            color: #fff;
-            font-size: 1.05rem;
-            margin-bottom: 4px;
-            letter-spacing: 0.04em;
-        }
-        .info-card p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* 引用块 */
-        .quote-block {
-            background: rgba(180, 50, 45, 0.1);
-            border-left: 4px solid var(--gold);
-            padding: 20px 24px;
-            border-radius: 0 10px 10px 0;
-            margin: 20px 0;
-            font-family: var(--font-display);
-            font-style: italic;
-            color: var(--gold-light);
-            font-size: 1.05rem;
-            letter-spacing: 0.03em;
+        .repertoire-card {
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.5s var(--transition);
+            cursor: pointer;
             position: relative;
         }
-        .quote-block::before {
-            content: '"';
-            position: absolute;
-            top: -10px;
-            left: 12px;
-            font-size: 3rem;
-            color: rgba(201, 169, 110, 0.25);
-            font-family: serif;
-            line-height: 1;
+        .repertoire-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
         }
-
-        /* 标签 */
-        .tag {
-            display: inline-block;
-            padding: 5px 14px;
-            background: rgba(180, 50, 45, 0.25);
-            color: var(--gold-light);
-            border-radius: 20px;
-            font-size: 0.82rem;
-            letter-spacing: 0.04em;
-            margin: 3px 4px;
-            border: 1px solid rgba(201, 169, 110, 0.3);
-            transition: all 0.3s ease;
-        }
-        .tag:hover {
-            background: rgba(180, 50, 45, 0.45);
-            border-color: var(--gold);
-            cursor: pointer;
-        }
-
-        /* 返回顶部按钮 */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: rgba(180, 50, 45, 0.8);
-            border: 2px solid var(--gold);
-            color: var(--gold-light);
-            font-size: 1.3rem;
-            cursor: pointer;
+        .repertoire-card .card-img-wrap {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/10;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.35s ease;
+            background: #1a0a0a;
+        }
+        .repertoire-card .card-img-wrap svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+        }
+        .repertoire-card:hover .card-img-wrap svg {
+            transform: scale(1.08);
+        }
+        .repertoire-card .card-img-wrap .card-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--red);
+            color: #fff;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .repertoire-card .card-body {
+            padding: 20px;
+        }
+        .repertoire-card .card-body h3 {
+            font-size: 1.15rem;
+            color: var(--dark);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .repertoire-card .card-body p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        /* ============ 详情页4：著名艺术家 - 横向排列 ============ */
+        .artists-row {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .artist-card {
+            flex: 0 1 260px;
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.5s var(--bounce);
+            cursor: pointer;
+            text-align: center;
+            padding-bottom: 22px;
+        }
+        .artist-card:hover {
+            transform: translateY(-14px) scale(1.04);
+            box-shadow: var(--shadow-lg);
+        }
+        .artist-card .artist-img-wrap {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 26px auto 14px;
+            border: 4px solid var(--gold);
+            transition: all 0.5s;
+            box-shadow: 0 0 0 7px rgba(201, 169, 110, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f0e8;
+        }
+        .artist-card .artist-img-wrap svg {
+            width: 100%;
+            height: 100%;
+        }
+        .artist-card:hover .artist-img-wrap {
+            border-color: var(--red);
+            box-shadow: 0 0 0 11px rgba(181, 52, 58, 0.18);
+            transform: scale(1.07);
+        }
+        .artist-card h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+        .artist-card .artist-role {
+            color: var(--red);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .artist-card p {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            padding: 0 18px;
+            line-height: 1.65;
+        }
+
+        /* ============ 详情页5：脸谱艺术 - 横向排列 ============ */
+        .mask-gallery {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .mask-item {
+            flex: 0 1 180px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s var(--bounce);
+        }
+        .mask-item:hover {
+            transform: scale(1.1);
+        }
+        .mask-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 3px solid #e0d5c0;
+            transition: all 0.5s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #faf6ed;
+        }
+        .mask-circle svg {
+            width: 100%;
+            height: 100%;
+        }
+        .mask-item:hover .mask-circle {
+            border-color: var(--red);
+            box-shadow: 0 0 45px rgba(181, 52, 58, 0.5);
+            animation: maskPulse 1s ease-in-out infinite;
+        }
+        @keyframes maskPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(181, 52, 58, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 55px rgba(181, 52, 58, 0.75), 0 0 75px rgba(201, 169, 110, 0.35);
+            }
+        }
+        .mask-item h4 {
+            letter-spacing: 2px;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        .mask-item .mask-meaning {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* ============ 详情页6：传承发展 ============ */
+        .heritage-content {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+        .heritage-text {
+            flex: 1 1 500px;
+            background: #fff;
+            border-radius: 18px;
+            padding: 34px;
+            box-shadow: var(--shadow);
+            line-height: 1.85;
+        }
+        .heritage-text h3 {
+            color: var(--red);
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+        .heritage-text p {
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+        .heritage-stats {
+            flex: 1 1 350px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            align-content: start;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 26px 18px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.4s var(--bounce);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: var(--shadow-lg);
+        }
+        .stat-card .stat-number {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--red);
+            letter-spacing: 2px;
+        }
+        .stat-card .stat-label {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ============ 页脚 ============ */
+        .footer {
+            background: var(--darker);
+            color: #999;
+            text-align: center;
+            padding: 50px 3rem 30px;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(201, 169, 110, 0.2);
+        }
+        .footer .footer-title {
+            font-size: 1.5rem;
+            color: var(--light-gold);
+            letter-spacing: 5px;
+            margin-bottom: 8px;
+        }
+        .footer p {
+            font-size: 0.85rem;
+        }
+
+        /* ============ 回到顶部按钮 ============ */
+        .back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 999;
+            box-shadow: 0 8px 25px rgba(181, 52, 58, 0.45);
+            transition: all 0.4s var(--bounce);
             opacity: 0;
             pointer-events: none;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .back-to-top.visible {
             opacity: 1;
             pointer-events: auto;
+            transform: translateY(0);
         }
         .back-to-top:hover {
-            background: rgba(200, 55, 50, 0.9);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 169, 110, 0.4);
+            transform: translateY(-6px) scale(1.1);
+            box-shadow: 0 14px 35px rgba(181, 52, 58, 0.65);
+            background: var(--deep-red);
         }
 
-        /* 页脚 */
-        .site-footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
-            border-top: 1px solid rgba(201, 169, 110, 0.15);
-            margin-top: 40px;
+        /* ============ 滚动揭示动画 ============ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(45px);
+            transition: all 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 {
+            transition-delay: 0.08s;
+        }
+        .reveal-delay-2 {
+            transition-delay: 0.16s;
+        }
+        .reveal-delay-3 {
+            transition-delay: 0.24s;
+        }
+        .reveal-delay-4 {
+            transition-delay: 0.32s;
+        }
+        .reveal-delay-5 {
+            transition-delay: 0.4s;
+        }
+        .reveal-delay-6 {
+            transition-delay: 0.48s;
         }
 
-        /* ============ 响应式 ============ */
-        @media (max-width: 900px) {
-            .two-col,
-            .three-col {
-                grid-template-columns: 1fr;
-            }
-            .four-col {
+        /* ============ 响应式降级 ============ */
+        @media (max-width: 1300px) {
+            .feature-cards {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .main-nav {
-                gap: 2px;
-                padding: 8px 8px;
-                top: 45px;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                justify-content: flex-start;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
-                -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+            .repertoire-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            .main-nav::-webkit-scrollbar {
+            .history-horizontal {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+            }
+            .history-horizontal::before {
                 display: none;
             }
-            .nav-item {
-                padding: 8px 11px;
-                font-size: 0.75rem;
-                flex-shrink: 0;
+            .timeline-node {
+                flex: 0 1 220px;
             }
-            .nav-item .nav-icon {
-                font-size: 0.9rem;
+            .hero-inner {
+                gap: 30px;
             }
-            .nav-item .nav-label {
-                font-size: 0.68rem;
+            .hero-visual {
+                flex: 0 0 38%;
             }
-            .nav-toggle-btn {
-                display: flex;
+            .hero-text {
+                flex: 1 1 60%;
             }
-            .page-container {
-                padding-top: 120px;
-            }
-            .page {
-                padding: 15px 12px 40px;
-            }
-            .home-cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            .home-card {
-                padding: 16px 10px;
-            }
-            .home-card .card-icon {
-                font-size: 2rem;
-            }
-            .timeline {
-                padding-left: 25px;
-                margin-left: 10px;
-            }
-            .timeline-item::before {
-                left: -32px;
-                width: 10px;
-                height: 10px;
-            }
-            .image-placeholder {
-                aspect-ratio: 4/3;
-                max-height: 220px;
-                font-size: 3rem;
-            }
-            .image-placeholder.portrait {
-                max-height: 240px;
-                font-size: 2.8rem;
+            .hero-title {
+                font-size: 3.2rem;
+                letter-spacing: 4px;
             }
         }
-        @media (max-width: 480px) {
-            .home-cards-grid {
+        @media (max-width: 1100px) {
+            body {
+                min-width: auto;
+            }
+            .navbar {
+                padding: 0 1.5rem;
+            }
+            .nav-links li a {
+                padding: 8px 10px;
+                font-size: 0.78rem;
+                letter-spacing: 1px;
+            }
+            .hero {
+                padding: 80px 1.5rem 50px;
+            }
+            .hero-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-visual {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 400px;
+                order: -1;
+            }
+            .hero-desc {
+                max-width: 100%;
+                margin: 0 auto 1.8rem;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .detail-page {
+                padding: 60px 1.5rem 50px;
+            }
+            .feature-cards {
                 grid-template-columns: 1fr 1fr;
-                gap: 8px;
             }
-            .home-card {
-                padding: 12px 6px;
-                border-radius: 8px;
-            }
-            .home-card .card-icon {
-                font-size: 1.6rem;
-            }
-            .home-card .card-title {
-                font-size: 0.85rem;
-            }
-            .home-card .card-hint {
-                font-size: 0.65rem;
-            }
-            .home-hero .hero-title {
-                font-size: 2.2rem;
-            }
-            .four-col {
+            .repertoire-grid {
                 grid-template-columns: 1fr 1fr;
             }
-            .content-block {
-                padding: 16px;
+            .mask-gallery {
+                gap: 16px;
             }
-            .back-to-top {
-                bottom: 18px;
-                right: 14px;
-                width: 38px;
-                height: 38px;
-                font-size: 1rem;
+            .mask-item {
+                flex: 0 1 140px;
             }
-            .stage-curtain-top {
-                height: 40px;
+            .mask-circle {
+                width: 110px;
+                height: 110px;
             }
-            .main-nav {
-                top: 30px;
-            }
-            .page-container {
-                padding-top: 100px;
+            .custom-cursor {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bg-texture"></div>
-    <div class="stage-curtain-top"></div>
+
+    <!-- 自定义光标 -->
+    <div class="custom-cursor" id="customCursor"></div>
 
     <!-- 导航栏 -->
-    <nav class="main-nav" id="mainNav" role="navigation" aria-label="主导航">
-        <button class="nav-item active" data-page="home" aria-current="page">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-label">首页</span>
-        </button>
-        <button class="nav-item" data-page="history">
-            <span class="nav-icon">📜</span>
-            <span class="nav-label">历史渊源</span>
-        </button>
-        <button class="nav-item" data-page="art">
-            <span class="nav-icon">🎭</span>
-            <span class="nav-label">艺术特色</span>
-        </button>
-        <button class="nav-item" data-page="repertoire">
-            <span class="nav-icon">🎬</span>
-            <span class="nav-label">经典剧目</span>
-        </button>
-        <button class="nav-item" data-page="masters">
-            <span class="nav-icon">🌟</span>
-            <span class="nav-label">名家风采</span>
-        </button>
-        <button class="nav-item" data-page="visual">
-            <span class="nav-icon">🎨</span>
-            <span class="nav-label">脸谱服饰</span>
-        </button>
-        <button class="nav-item" data-page="future">
-            <span class="nav-icon">🔥</span>
-            <span class="nav-label">传承发展</span>
-        </button>
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a class="nav-logo" href="#home" title="回到首页">
+                <span class="logo-icon">腔</span>
+                <span>秦腔</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active" data-nav="home">首页</a></li>
+                <li><a href="#detail1" data-nav="detail1">历史渊源</a></li>
+                <li><a href="#detail2" data-nav="detail2">艺术特色</a></li>
+                <li><a href="#detail3" data-nav="detail3">经典剧目</a></li>
+                <li><a href="#detail4" data-nav="detail4">著名艺术家</a></li>
+                <li><a href="#detail5" data-nav="detail5">脸谱艺术</a></li>
+                <li><a href="#detail6" data-nav="detail6">传承发展</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <!-- 移动端导航按钮 -->
-    <button class="nav-toggle-btn" id="navToggleBtn" aria-label="菜单" title="展开导航菜单">
-        <span></span><span></span><span></span>
-    </button>
-
-    <!-- 页面容器 -->
-    <div class="page-container" id="pageContainer">
-
-        <!-- ==================== 首页 ==================== -->
-        <section class="page active" id="page-home" data-page="home">
-            <div class="home-hero">
-                <span class="hero-emblem">🎭</span>
-                <h1 class="hero-title">秦 腔</h1>
-                <p class="hero-subtitle">大秦之音 · 华夏正声</p>
-                <div class="hero-divider"></div>
+    <!-- ==================== 首页 / 英雄区 - 横版左右布局 ==================== -->
+    <section class="hero" id="home">
+        <div class="hero-bg-particles" id="heroParticles"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-inner">
+            <div class="hero-text">
+                <p class="hero-subtitle-top">国家级非物质文化遗产</p>
+                <h1 class="hero-title">大<span class="accent">秦</span>之腔</h1>
+                <p class="hero-subtitle">—— 西北大地的千年吼声 ——</p>
                 <p class="hero-desc">
-                    秦腔，中国最古老的戏曲剧种之一，源于周秦、成于唐宋、盛于明清，被誉为<strong style="color:#e0c88a;">"梆子戏鼻祖"</strong>。
-                    其声腔高昂激越、粗犷豪放，承载着西北大地千年的文化魂魄，是国家级非物质文化遗产，更是中华民族的艺术瑰宝。
+                    秦腔，中国最古老的戏曲剧种之一，源于西周，成于明清，
+                    以其高亢激昂、粗犷豪放的唱腔，被誉为"中国戏曲的活化石"。
+                    它承载着西北人民的喜怒哀乐，是黄土高原上最震撼人心的声音。
                 </p>
-            </div>
-            <div class="home-cards-grid">
-                <div class="home-card" data-nav="history">
-                    <span class="card-icon">📜</span>
-                    <div class="card-title">历史渊源</div>
-                    <div class="card-hint">追溯千年根脉</div>
-                </div>
-                <div class="home-card" data-nav="art">
-                    <span class="card-icon">🎭</span>
-                    <div class="card-title">艺术特色</div>
-                    <div class="card-hint">唱念做打之美</div>
-                </div>
-                <div class="home-card" data-nav="repertoire">
-                    <span class="card-icon">🎬</span>
-                    <div class="card-title">经典剧目</div>
-                    <div class="card-hint">传世名篇赏析</div>
-                </div>
-                <div class="home-card" data-nav="masters">
-                    <span class="card-icon">🌟</span>
-                    <div class="card-title">名家风采</div>
-                    <div class="card-hint">一代宗师列传</div>
-                </div>
-                <div class="home-card" data-nav="visual">
-                    <span class="card-icon">🎨</span>
-                    <div class="card-title">脸谱服饰</div>
-                    <div class="card-hint">视觉艺术盛宴</div>
-                </div>
-                <div class="home-card" data-nav="future">
-                    <span class="card-icon">🔥</span>
-                    <div class="card-title">传承发展</div>
-                    <div class="card-hint">古今交融创新</div>
+                <div class="hero-buttons">
+                    <a href="#detail1" class="btn btn-primary">探索秦腔</a>
+                    <a href="#detail3" class="btn btn-outline">经典剧目</a>
                 </div>
             </div>
-        </section>
+            <div class="hero-visual">
+                <div class="hero-placeholder-img">
+                    <svg viewBox="0 0 520 390" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1a0a0a"/>
+                                <stop offset="50%" stop-color="#2a1010"/>
+                                <stop offset="100%" stop-color="#0d0000"/>
+                            </linearGradient>
+                        </defs>
+                        <rect fill="url(#heroGrad)" width="520" height="390"/>
+                        <circle cx="260" cy="180" r="80" fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.6"/>
+                        <circle cx="260" cy="180" r="50" fill="none" stroke="#b5343a" stroke-width="3" opacity="0.7"/>
+                        <text x="260" y="170" text-anchor="middle" fill="#e0c88a" font-size="52" font-weight="900" letter-spacing="8">秦</text>
+                        <text x="260" y="220" text-anchor="middle" fill="#d4c5a9" font-size="18" letter-spacing="6">QIN QIANG</text>
+                        <line x1="180" y1="260" x2="340" y2="260" stroke="#c9a96e" stroke-width="1" opacity="0.4"/>
+                        <text x="260" y="290" text-anchor="middle" fill="#b8a88a" font-size="13" letter-spacing="3">中国戏曲活化石</text>
+                        <text x="260" y="315" text-anchor="middle" fill="#8a7a60" font-size="11" letter-spacing="2">国家级非物质文化遗产</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('detail1').scrollIntoView({behavior:'smooth'})">
+            <span></span>
+        </div>
+    </section>
 
-        <!-- ==================== 第2页：历史渊源 ==================== -->
-        <section class="page" id="page-history" data-page="history">
-            <div class="page-header">
-                <span class="page-icon">📜</span>
-                <h2>历史渊源</h2>
-                <p class="page-subtitle">从周秦礼乐到梆子鼻祖</p>
-                <div class="divider-line"></div>
+    <!-- ==================== 详情页1：历史渊源 ==================== -->
+    <section class="detail-page" id="detail1">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">第一章</span>
+                <h2 class="section-title">历史渊源</h2>
+                <p class="section-subtitle">从西周到明清，穿越三千年的回响</p>
             </div>
-            <div class="two-col">
-                <div class="image-placeholder" style="aspect-ratio:4/3;" aria-label="秦腔历史图片占位">🏛️</div>
-                <div class="content-block">
-                    <h3>源起三秦大地</h3>
-                    <p>秦腔起源于<strong class="highlight">周秦时期的礼乐文化</strong>，其音乐基因可追溯至《诗经》中的"秦风"。秦汉时期，关中地区的民间歌舞、角抵戏为秦腔的雏形奠定了基础。唐代长安作为国际大都会，各种艺术形式交融碰撞，秦腔的声腔体系逐渐成形。</p>
-                    <p>至明清时期，秦腔已发展为成熟的戏曲剧种，并随着商路传播至全国各地，对<strong class="highlight">京剧、豫剧、晋剧等数十个剧种</strong>产生了深远影响，故有"梆子戏鼻祖"之美誉。</p>
+            <!-- 横向时间轴 -->
+            <div class="history-horizontal">
+                <div class="timeline-node reveal reveal-delay-1">
+                    <div class="node-dot"></div>
+                    <div class="node-year">西周时期</div>
+                    <div class="node-title">萌芽之源</div>
+                    <div class="node-desc">秦腔源头可追溯至西周"秦风"民歌，关中民间歌谣已具豪放粗犷风格，《诗经·秦风》即为明证。</div>
+                </div>
+                <div class="timeline-node reveal reveal-delay-2">
+                    <div class="node-dot"></div>
+                    <div class="node-year">秦汉时期</div>
+                    <div class="node-title">百戏融合</div>
+                    <div class="node-desc">秦统一六国后，"角抵戏""百戏"与当地民歌融合，汉代乐府的设立推动了音乐系统化发展。</div>
+                </div>
+                <div class="timeline-node reveal reveal-delay-3">
+                    <div class="node-dot"></div>
+                    <div class="node-year">唐宋时期</div>
+                    <div class="node-title">逐步成型</div>
+                    <div class="node-desc">唐代长安歌舞戏盛行，宋代杂剧兴起，板腔体音乐结构显现，秦腔雏形已然清晰。</div>
+                </div>
+                <div class="timeline-node reveal reveal-delay-4">
+                    <div class="node-dot"></div>
+                    <div class="node-year">明清时期</div>
+                    <div class="node-title">成熟鼎盛</div>
+                    <div class="node-desc">明代秦腔正式形成，清代乾隆年间传入北京，对中国戏曲发展产生深远影响，达到鼎盛。</div>
+                </div>
+                <div class="timeline-node reveal reveal-delay-5">
+                    <div class="node-dot"></div>
+                    <div class="node-year">近现代</div>
+                    <div class="node-title">传承革新</div>
+                    <div class="node-desc">易俗社等推动改革，2006年列入国家级非遗名录，得到系统保护与传承，焕发新生。</div>
                 </div>
             </div>
-            <div class="content-block" style="margin-top:24px;">
-                <h3>📅 秦腔发展大事记</h3>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <span class="timeline-year">周秦时期（约公元前11世纪）</span>
-                        <p>关中民间歌舞与祭祀仪式中的音乐元素，成为秦腔音乐的原始基因。"秦风"诗篇记录了当时的民间歌唱传统。</p>
+            <!-- 历史图片行 -->
+            <div class="history-img-row">
+                <div class="history-img-card reveal reveal-delay-3">
+                    <div class="img-placeholder">
+                        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#3a1010" width="400" height="300"/>
+                            <rect x="80" y="60" width="240" height="180" rx="8" fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.6"/>
+                            <text x="200" y="140" text-anchor="middle" fill="#e0c88a" font-size="28" font-weight="700">秦腔舞台</text>
+                            <text x="200" y="175" text-anchor="middle" fill="#b8a88a" font-size="13">舞台表演场景</text>
+                        </svg>
                     </div>
-                    <div class="timeline-item">
-                        <span class="timeline-year">汉唐时期（公元前206年—公元907年）</span>
-                        <p>汉代角抵戏、唐代参军戏与歌舞戏繁荣，长安作为文化中心，各种表演艺术为秦腔的形成提供了丰富养分。</p>
+                    <div class="history-img-caption">秦腔舞台表演场景</div>
+                </div>
+                <div class="history-img-card reveal reveal-delay-4">
+                    <div class="img-placeholder">
+                        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#2a1a0a" width="400" height="300"/>
+                            <circle cx="200" cy="130" r="50" fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.5"/>
+                            <text x="200" y="140" text-anchor="middle" fill="#e0c88a" font-size="28" font-weight="700">精美戏装</text>
+                            <text x="200" y="175" text-anchor="middle" fill="#b8a88a" font-size="13">秦腔戏装与头饰</text>
+                        </svg>
                     </div>
-                    <div class="timeline-item">
-                        <span class="timeline-year">宋元时期（960年—1368年）</span>
-                        <p>杂剧兴盛，秦腔的板腔体音乐结构初步确立，梆子腔开始形成独特的艺术风格。</p>
+                    <div class="history-img-caption">精美秦腔戏装与头饰</div>
+                </div>
+                <div class="history-img-card reveal reveal-delay-5">
+                    <div class="img-placeholder">
+                        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#0a1a1a" width="400" height="300"/>
+                            <ellipse cx="200" cy="140" rx="90" ry="55" fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.5"/>
+                            <text x="200" y="140" text-anchor="middle" fill="#e0c88a" font-size="28" font-weight="700">传统乐器</text>
+                            <text x="200" y="175" text-anchor="middle" fill="#b8a88a" font-size="13">秦腔伴奏乐器</text>
+                        </svg>
                     </div>
-                    <div class="timeline-item">
-                        <span class="timeline-year">明清时期（1368年—1911年）</span>
-                        <p>秦腔进入全盛期，涌现大量经典剧目，传播至全国。乾隆年间秦腔艺人进京演出，轰动一时。</p>
+                    <div class="history-img-caption">秦腔伴奏传统乐器</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 详情页2：艺术特色 ==================== -->
+    <section class="detail-page" id="detail2">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">第二章</span>
+                <h2 class="section-title">艺术特色</h2>
+                <p class="section-subtitle">高亢激越，慷慨苍凉的艺术之美</p>
+            </div>
+            <div class="feature-cards">
+                <div class="feature-card reveal reveal-delay-1">
+                    <span class="feature-icon">🎤</span>
+                    <h3>唱腔艺术</h3>
+                    <p>秦腔唱腔分为"欢音"与"苦音"两大类。欢音明朗欢快，苦音深沉哀婉。板式丰富，高亢处如裂帛穿云，低回处似幽谷流泉。</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <span class="feature-icon">💃</span>
+                    <h3>表演程式</h3>
+                    <p>讲究"四功五法"——唱念做打与手眼身法步。动作夸张有力，"抖须""甩发""喷火"等绝技闻名，极具视觉冲击力。</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <span class="feature-icon">🎻</span>
+                    <h3>伴奏音乐</h3>
+                    <p>以板胡为主奏，配以二胡、笛子、唢呐、琵琶。打击乐有板鼓、大锣等。板胡音色高亢嘹亮，与唱腔相得益彰。</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-4">
+                    <span class="feature-icon">🎭</span>
+                    <h3>角色行当</h3>
+                    <p>分为生、旦、净、丑四大行当。净角脸谱色彩浓烈，红忠白奸黑耿直，是中国戏曲美学的精华所在。</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-5">
+                    <span class="feature-icon">📜</span>
+                    <h3>语言风格</h3>
+                    <p>以关中方言为基础，保留大量古汉语词汇。唱词质朴而富有诗意，既有黄土高原的泥土气息，又蕴含深厚文化底蕴。</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-6">
+                    <span class="feature-icon">🏛️</span>
+                    <h3>舞台美术</h3>
+                    <p>布景简洁大气，服饰华丽考究。戏装以明代服饰为基础，刺绣精美，一桌二椅蕴含无穷变化与想象空间。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 详情页3：经典剧目 ==================== -->
+    <section class="detail-page" id="detail3">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">第三章</span>
+                <h2 class="section-title">经典剧目</h2>
+                <p class="section-subtitle">千古传唱的不朽名篇</p>
+            </div>
+            <div class="repertoire-grid">
+                <div class="repertoire-card reveal reveal-delay-1">
+                    <div class="card-img-wrap">
+                        <svg viewBox="0 0 500 310" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#2a1015" width="500" height="310"/>
+                            <text x="250" y="140" text-anchor="middle" fill="#e0c88a" font-size="30" font-weight="700">铡美案</text>
+                            <text x="250" y="175" text-anchor="middle" fill="#c9a96e" font-size="14" letter-spacing="3">包拯铁面无私</text>
+                        </svg>
+                        <span class="card-badge">公案戏</span>
                     </div>
-                    <div class="timeline-item">
-                        <span class="timeline-year">2006年</span>
-                        <p>秦腔被列入<strong class="highlight">第一批国家级非物质文化遗产名录</strong>，得到国家层面的保护与重视。</p>
+                    <div class="card-body">
+                        <h3>《铡美案》</h3>
+                        <p>秦腔最具代表性的公案戏。包拯铁面无私铡杀陈世美，"王朝马汉喊一声"等唱段广为流传。</p>
+                    </div>
+                </div>
+                <div class="repertoire-card reveal reveal-delay-2">
+                    <div class="card-img-wrap">
+                        <svg viewBox="0 0 500 310" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#1a2a20" width="500" height="310"/>
+                            <text x="250" y="140" text-anchor="middle" fill="#e0c88a" font-size="30" font-weight="700">三滴血</text>
+                            <text x="250" y="175" text-anchor="middle" fill="#c9a96e" font-size="14" letter-spacing="3">范紫东代表作</text>
+                        </svg>
+                        <span class="card-badge">经典名剧</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>《三滴血》</h3>
+                        <p>范紫东先生代表作，被誉为"秦腔的莎士比亚戏剧"。剧情曲折，讽刺教条主义，展现深厚人文关怀。</p>
+                    </div>
+                </div>
+                <div class="repertoire-card reveal reveal-delay-3">
+                    <div class="card-img-wrap">
+                        <svg viewBox="0 0 500 310" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#2a1a0a" width="500" height="310"/>
+                            <text x="250" y="140" text-anchor="middle" fill="#e0c88a" font-size="30" font-weight="700">火焰驹</text>
+                            <text x="250" y="175" text-anchor="middle" fill="#c9a96e" font-size="14" letter-spacing="3">浪漫传奇</text>
+                        </svg>
+                        <span class="card-badge">传奇故事</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>《火焰驹》</h3>
+                        <p>秦腔传统浪漫传奇。李彦贵与黄桂英的爱情故事，"火焰驹"日行千里，忠义感人，唱腔优美动人。</p>
+                    </div>
+                </div>
+                <div class="repertoire-card reveal reveal-delay-4">
+                    <div class="card-img-wrap">
+                        <svg viewBox="0 0 500 310" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#1a1020" width="500" height="310"/>
+                            <text x="250" y="140" text-anchor="middle" fill="#e0c88a" font-size="30" font-weight="700">周仁回府</text>
+                            <text x="250" y="175" text-anchor="middle" fill="#c9a96e" font-size="14" letter-spacing="3">忠义感人</text>
+                        </svg>
+                        <span class="card-badge">忠义戏</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>《周仁回府》</h3>
+                        <p>周仁为救义兄之妻背负骂名。"哭墓"一折尤为感人，是考验秦腔演员功力的试金石。</p>
+                    </div>
+                </div>
+                <div class="repertoire-card reveal reveal-delay-5">
+                    <div class="card-img-wrap">
+                        <svg viewBox="0 0 500 310" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#201010" width="500" height="310"/>
+                            <text x="250" y="140" text-anchor="middle" fill="#e0c88a" font-size="30" font-weight="700">游西湖</text>
+                            <text x="250" y="175" text-anchor="middle" fill="#c9a96e" font-size="14" letter-spacing="3">喷火绝技</text>
+                        </svg>
+                        <span class="card-badge">爱情戏</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>《游西湖》</h3>
+                        <p>李慧娘与裴瑞卿的爱情悲剧。"鬼怨"一折喷火绝技令人叹为观止，将秦腔表演推向极致。</p>
+                    </div>
+                </div>
+                <div class="repertoire-card reveal reveal-delay-6">
+                    <div class="card-img-wrap">
+                        <svg viewBox="0 0 500 310" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#0a1a2a" width="500" height="310"/>
+                            <text x="250" y="140" text-anchor="middle" fill="#e0c88a" font-size="30" font-weight="700">赵氏孤儿</text>
+                            <text x="250" y="175" text-anchor="middle" fill="#c9a96e" font-size="14" letter-spacing="3">历史大戏</text>
+                        </svg>
+                        <span class="card-badge">历史大戏</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>《赵氏孤儿》</h3>
+                        <p>秦腔历史剧扛鼎之作。程婴舍子救孤，大义凛然震撼人心，全剧气势恢宏，常演不衰。</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- ==================== 第3页：艺术特色 ==================== -->
-        <section class="page" id="page-art" data-page="art">
-            <div class="page-header">
-                <span class="page-icon">🎭</span>
-                <h2>艺术特色</h2>
-                <p class="page-subtitle">高昂激越·大气磅礴</p>
-                <div class="divider-line"></div>
+    <!-- ==================== 详情页4：著名艺术家 ==================== -->
+    <section class="detail-page" id="detail4">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">第四章</span>
+                <h2 class="section-title">著名艺术家</h2>
+                <p class="section-subtitle">秦腔史上的璀璨星辰</p>
             </div>
-            <div class="three-col">
-                <div class="info-card">
-                    <span class="card-emoji">🎵</span>
-                    <h4>声腔体系</h4>
-                    <p>以梆子腔为主，分欢音与苦音两大系统。欢音明快高昂，苦音深沉悲壮，形成强烈的艺术感染力。</p>
+            <div class="artists-row">
+                <div class="artist-card reveal reveal-delay-1">
+                    <div class="artist-img-wrap">
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="45" r="25" fill="#c9a96e" opacity="0.8"/>
+                            <ellipse cx="60" cy="95" rx="35" ry="20" fill="#b5343a" opacity="0.6"/>
+                            <text x="60" y="52" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">任</text>
+                        </svg>
+                    </div>
+                    <h3>任哲中</h3>
+                    <div class="artist-role">秦腔须生泰斗</div>
+                    <p>被誉为"秦腔皇帝"，嗓音宽厚洪亮，代表剧目《周仁回府》《铡美案》等。</p>
                 </div>
-                <div class="info-card">
-                    <span class="card-emoji">🥁</span>
-                    <h4>伴奏乐器</h4>
-                    <p>以板胡为主奏乐器，配以二胡、笛子、唢呐等。打击乐中使用梆子与暴鼓，节奏鲜明有力。</p>
+                <div class="artist-card reveal reveal-delay-2">
+                    <div class="artist-img-wrap">
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="45" r="25" fill="#c9a96e" opacity="0.8"/>
+                            <ellipse cx="60" cy="95" rx="35" ry="20" fill="#7a1f24" opacity="0.6"/>
+                            <text x="60" y="52" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">刘</text>
+                        </svg>
+                    </div>
+                    <h3>刘毓中</h3>
+                    <div class="artist-role">秦腔表演艺术家</div>
+                    <p>易俗社代表人物，唱腔苍劲有力，在《三滴血》《火焰驹》中塑造众多经典形象。</p>
                 </div>
-                <div class="info-card">
-                    <span class="card-emoji">🗣️</span>
-                    <h4>演唱风格</h4>
-                    <p>讲究"吼"的艺术，真声与假声结合，高亢处如裂帛穿云，低回处似幽谷鸣泉，极具震撼力。</p>
+                <div class="artist-card reveal reveal-delay-3">
+                    <div class="artist-img-wrap">
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="45" r="25" fill="#e0c88a" opacity="0.8"/>
+                            <ellipse cx="60" cy="95" rx="35" ry="20" fill="#b5343a" opacity="0.5"/>
+                            <text x="60" y="52" text-anchor="middle" fill="#2c2416" font-size="16" font-weight="700">李</text>
+                        </svg>
+                    </div>
+                    <h3>李正敏</h3>
+                    <div class="artist-role">秦腔旦角名家</div>
+                    <p>"敏腔"创始人，嗓音清亮婉转，表演细腻传神，为旦角艺术开创新境界。</p>
                 </div>
-                <div class="info-card">
-                    <span class="card-emoji">💃</span>
-                    <h4>表演程式</h4>
-                    <p>唱念做打并重，身段刚劲有力。生旦净丑各行当均有严格的表演规范，讲究精气神的高度统一。</p>
-                </div>
-                <div class="info-card">
-                    <span class="card-emoji">📝</span>
-                    <h4>语言特色</h4>
-                    <p>使用关中方言演唱，保留了大量的古汉语词汇与发音，被称为古代汉语的"活化石"。</p>
-                </div>
-                <div class="info-card">
-                    <span class="card-emoji">🎪</span>
-                    <h4>舞台美学</h4>
-                    <p>虚实结合的写意风格，一桌二椅即可营造万千场景。演员的表演是舞台的核心灵魂。</p>
+                <div class="artist-card reveal reveal-delay-4">
+                    <div class="artist-img-wrap">
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="45" r="25" fill="#c9a96e" opacity="0.8"/>
+                            <ellipse cx="60" cy="95" rx="35" ry="20" fill="#5a1518" opacity="0.6"/>
+                            <text x="60" y="52" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">马</text>
+                        </svg>
+                    </div>
+                    <h3>马友仙</h3>
+                    <div class="artist-role">当代秦腔名家</div>
+                    <p>当代秦腔代表性人物，唱腔高亢激越而又细腻动人，秦腔传承的重要推动者。</p>
                 </div>
             </div>
-            <div class="quote-block" style="margin-top:28px;">
-                秦腔之美，在于其毫不掩饰的生命力。它不似江南丝竹那般婉约，却有着黄土高原般的厚重与辽阔，每一声吼唱都是对生命最直接的礼赞。
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- ==================== 第4页：经典剧目 ==================== -->
-        <section class="page" id="page-repertoire" data-page="repertoire">
-            <div class="page-header">
-                <span class="page-icon">🎬</span>
-                <h2>经典剧目</h2>
-                <p class="page-subtitle">传世名篇·千古流芳</p>
-                <div class="divider-line"></div>
+    <!-- ==================== 详情页5：脸谱艺术 ==================== -->
+    <section class="detail-page" id="detail5">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">第五章</span>
+                <h2 class="section-title">脸谱艺术</h2>
+                <p class="section-subtitle">色彩与图案中的性格密码</p>
             </div>
-            <div class="two-col">
-                <div class="content-block">
-                    <h3>🎭 《三滴血》</h3>
-                    <p>秦腔经典名剧，由<strong class="highlight">范紫东</strong>创作于1918年。讲述了一桩因滴血认亲而引发的曲折公案，情节跌宕起伏，深刻讽刺了教条主义的荒谬。该剧被誉为"秦腔的莎士比亚戏剧"，文学价值极高。</p>
-                    <span class="tag">公案戏</span><span class="tag">讽刺喜剧</span><span class="tag">范紫东代表作</span>
+            <div class="mask-gallery">
+                <div class="mask-item reveal reveal-delay-1">
+                    <div class="mask-circle">
+                        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="70" cy="70" r="66" fill="#c41e3a" stroke="#c9a96e" stroke-width="3"/>
+                            <text x="70" y="80" text-anchor="middle" fill="#fff" font-size="38" font-weight="900">忠</text>
+                        </svg>
+                    </div>
+                    <h4>红色脸谱</h4>
+                    <p class="mask-meaning">忠勇正义 · 关羽为代表</p>
                 </div>
-                <div class="image-placeholder" aria-label="三滴血剧照占位">🩸</div>
+                <div class="mask-item reveal reveal-delay-2">
+                    <div class="mask-circle">
+                        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="70" cy="70" r="66" fill="#f5f5f0" stroke="#555" stroke-width="3"/>
+                            <text x="70" y="80" text-anchor="middle" fill="#333" font-size="38" font-weight="900">奸</text>
+                        </svg>
+                    </div>
+                    <h4>白色脸谱</h4>
+                    <p class="mask-meaning">奸诈阴险 · 曹操为代表</p>
+                </div>
+                <div class="mask-item reveal reveal-delay-3">
+                    <div class="mask-circle">
+                        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="70" cy="70" r="66" fill="#1a1a1a" stroke="#c9a96e" stroke-width="3"/>
+                            <text x="70" y="80" text-anchor="middle" fill="#e0c88a" font-size="38" font-weight="900">耿</text>
+                        </svg>
+                    </div>
+                    <h4>黑色脸谱</h4>
+                    <p class="mask-meaning">刚正耿直 · 包拯为代表</p>
+                </div>
+                <div class="mask-item reveal reveal-delay-4">
+                    <div class="mask-circle">
+                        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="70" cy="70" r="66" fill="#d4a017" stroke="#8b6914" stroke-width="3"/>
+                            <text x="70" y="80" text-anchor="middle" fill="#fff" font-size="38" font-weight="900">猛</text>
+                        </svg>
+                    </div>
+                    <h4>黄色脸谱</h4>
+                    <p class="mask-meaning">勇猛暴躁 · 典韦为代表</p>
+                </div>
+                <div class="mask-item reveal reveal-delay-5">
+                    <div class="mask-circle">
+                        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="70" cy="70" r="66" fill="#2d6a2d" stroke="#1a4a1a" stroke-width="3"/>
+                            <text x="70" y="80" text-anchor="middle" fill="#fff" font-size="38" font-weight="900">侠</text>
+                        </svg>
+                    </div>
+                    <h4>绿色脸谱</h4>
+                    <p class="mask-meaning">侠义绿林 · 程咬金为代表</p>
+                </div>
+                <div class="mask-item reveal reveal-delay-6">
+                    <div class="mask-circle">
+                        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="70" cy="70" r="66" fill="#d4af37" stroke="#8b7500" stroke-width="3"/>
+                            <text x="70" y="80" text-anchor="middle" fill="#fff" font-size="38" font-weight="900">圣</text>
+                        </svg>
+                    </div>
+                    <h4>金色脸谱</h4>
+                    <p class="mask-meaning">神佛仙圣 · 如来佛为代表</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="image-placeholder" aria-label="铡美案剧照占位">⚖️</div>
-                <div class="content-block">
-                    <h3>⚖️ 《铡美案》</h3>
-                    <p>秦腔包公戏的代表作，讲述包拯不畏权贵、秉公执法，铡杀忘恩负义的驸马陈世美的故事。<strong class="highlight">"黑头"包公</strong>的形象深入人心，其唱腔雄浑有力，充分展现了秦腔慷慨激昂的艺术魅力。</p>
-                    <span class="tag">包公戏</span><span class="tag">黑头唱功</span><span class="tag">惩恶扬善</span>
+    <!-- ==================== 详情页6：传承发展 ==================== -->
+    <section class="detail-page" id="detail6">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">第六章</span>
+                <h2 class="section-title">传承与发展</h2>
+                <p class="section-subtitle">古老艺术在新时代的生机</p>
+            </div>
+            <div class="heritage-content">
+                <div class="heritage-text reveal reveal-delay-1">
+                    <h3>非遗保护与当代传承</h3>
+                    <p>2006年，秦腔被列入第一批国家级非物质文化遗产名录，陕西省成立了专门的秦腔保护机构，对传统剧目进行抢救性记录和整理。目前已有超过200部经典剧目完成了数字化保存。</p>
+                    <p>在陕西、甘肃、宁夏、青海、新疆等地，秦腔依然是群众喜闻乐见的艺术形式。各类秦腔艺术节、展演活动每年吸引数十万观众参与，秦腔正在以崭新的面貌走进现代生活。</p>
+                    <p>年轻一代的秦腔演员不断涌现，他们在继承传统的基础上大胆创新，将现代元素融入古老艺术，让秦腔焕发出新的生命力。戏曲进校园活动也让更多青少年了解并爱上了这门传统艺术。</p>
                 </div>
+                <div class="heritage-stats">
+                    <div class="stat-card reveal reveal-delay-2">
+                        <div class="stat-number">3000<span style="font-size:1rem;">+</span></div>
+                        <div class="stat-label">年历史传承</div>
+                    </div>
+                    <div class="stat-card reveal reveal-delay-3">
+                        <div class="stat-number">200<span style="font-size:1rem;">+</span></div>
+                        <div class="stat-label">经典剧目保存</div>
+                    </div>
+                    <div class="stat-card reveal reveal-delay-4">
+                        <div class="stat-number">500万<span style="font-size:1rem;">+</span></div>
+                        <div class="stat-label">年观演人次</div>
+                    </div>
+                    <div class="stat-card reveal reveal-delay-5">
+                        <div class="stat-number">50<span style="font-size:1rem;">+</span></div>
+                        <div class="stat-label">专业院团</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="content-block">
-                    <h3>🏯 《火焰驹》</h3>
-                    <p>秦腔传统名剧，讲述宋时忠良之后的故事。该剧以<strong class="highlight">"义马"火焰驹</strong>为线索，贯穿全剧，情节感人至深。剧中武打场面精彩，唱腔设计精妙，是秦腔舞台上常演不衰的经典。</p>
-                    <span class="tag">忠义传奇</span><span class="tag">武打精彩</span>
-                </div>
-                <div class="image-placeholder" aria-label="火焰驹剧照占位">🐎</div>
-            </div>
-            <div class="content-block" style="text-align:center;">
-                <p style="font-size:1.05rem;">秦腔现存传统剧目超过<strong class="highlight">3000部</strong>，题材涵盖历史演义、民间故事、神话传说等，是中国戏曲文学的宝库。</p>
-            </div>
-        </section>
+    <!-- ==================== 页脚 ==================== -->
+    <footer class="footer">
+        <div class="footer-title">秦 腔</div>
+        <p>国家级非物质文化遗产 · 中国戏曲的活化石</p>
+        <p style="margin-top:6px;">西北大地的千年吼声，永远回响在黄土高原之上</p>
+        <p style="margin-top:14px;color:#666;">&copy; 2024 秦腔文化传承 · 版权所有</p>
+    </footer>
 
-        <!-- ==================== 第5页：名家风采 ==================== -->
-        <section class="page" id="page-masters" data-page="masters">
-            <div class="page-header">
-                <span class="page-icon">🌟</span>
-                <h2>名家风采</h2>
-                <p class="page-subtitle">一代宗师·薪火相传</p>
-                <div class="divider-line"></div>
-            </div>
-            <div class="four-col">
-                <div class="info-card">
-                    <div class="image-placeholder small portrait" aria-label="魏长生像占位">👤</div>
-                    <h4>魏长生</h4>
-                    <p style="font-size:0.8rem;">清代乾隆年间秦腔名家，以旦角表演闻名，曾进京演出轰动京城，对京剧旦行艺术影响深远。</p>
-                </div>
-                <div class="info-card">
-                    <div class="image-placeholder small portrait" aria-label="刘毓中像占位">👤</div>
-                    <h4>刘毓中</h4>
-                    <p style="font-size:0.8rem;">20世纪秦腔须生泰斗，嗓音洪亮醇厚，表演深沉大气，被誉为"秦腔须生第一人"。</p>
-                </div>
-                <div class="info-card">
-                    <div class="image-placeholder small portrait" aria-label="苏育民像占位">👤</div>
-                    <h4>苏育民</h4>
-                    <p style="font-size:0.8rem;">秦腔小生表演艺术家，文武兼备，唱做俱佳，其表演风格潇洒俊逸，自成一家。</p>
-                </div>
-                <div class="info-card">
-                    <div class="image-placeholder small portrait" aria-label="李瑞芳像占位">👤</div>
-                    <h4>李瑞芳</h4>
-                    <p style="font-size:0.8rem;">当代秦腔旦角名家，嗓音清脆婉转，表演细腻传神，为秦腔艺术的传承做出重要贡献。</p>
-                </div>
-            </div>
-            <div class="quote-block" style="margin-top:24px;">
-                舞台方丈地，一转万重山。秦腔艺术家们用一生坚守着这门古老的艺术，他们是华夏文化真正的守护者。
-            </div>
-        </section>
-
-        <!-- ==================== 第6页：脸谱服饰 ==================== -->
-        <section class="page" id="page-visual" data-page="visual">
-            <div class="page-header">
-                <span class="page-icon">🎨</span>
-                <h2>脸谱服饰</h2>
-                <p class="page-subtitle">色彩斑斓的视觉艺术</p>
-                <div class="divider-line"></div>
-            </div>
-            <div class="two-col">
-                <div class="content-block">
-                    <h3>🎨 秦腔脸谱艺术</h3>
-                    <p>秦腔脸谱是中国戏曲脸谱的重要流派，以<strong class="highlight">色彩浓烈、线条粗犷</strong>著称。红色代表忠勇（如关羽），黑色代表刚正（如包拯），白色代表奸诈，金色代表神怪。每一张脸谱都是一幅精美的艺术品。</p>
-                    <p>脸谱的绘制遵循严格的程式规范，一笔一划皆有寓意，被誉为<strong class="highlight">"无声的语言，有形的性格"</strong>。</p>
-                </div>
-                <div class="image-placeholder" aria-label="秦腔脸谱展示占位" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;padding:15px;">
-                    <span style="font-size:3rem;">🔴</span><span style="font-size:3rem;">⚫</span><span style="font-size:3rem;">⚪</span><span style="font-size:3rem;">🟡</span>
-                    <span style="font-size:2.5rem;">🟢</span><span style="font-size:2.5rem;">🟣</span>
-                </div>
-            </div>
-            <div class="two-col" style="margin-top:20px;">
-                <div class="image-placeholder portrait" aria-label="秦腔戏服占位" style="font-size:4rem;">👘</div>
-                <div class="content-block">
-                    <h3>👘 戏服与盔头</h3>
-                    <p>秦腔戏服以<strong class="highlight">明代服饰为基础</strong>，融合了汉唐以来的传统元素。蟒袍、靠甲、褶子、官衣等各类服饰工艺精湛，刺绣华美。盔头（头饰）更是精雕细琢，珠翠满目，每一件都是手工艺的杰作。</p>
-                    <p>戏服的色彩与纹样严格对应角色的身份地位，形成了独特的<strong class="highlight">视觉符号系统</strong>，使观众一眼便能辨识人物的性格与命运。</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== 第7页：传承发展 ==================== -->
-        <section class="page" id="page-future" data-page="future">
-            <div class="page-header">
-                <span class="page-icon">🔥</span>
-                <h2>传承与发展</h2>
-                <p class="page-subtitle">古今交融·守正创新</p>
-                <div class="divider-line"></div>
-            </div>
-            <div class="content-block">
-                <h3>🌱 当代传承现状</h3>
-                <p>目前，秦腔面临着观众老龄化、传承人才短缺等挑战。但令人欣慰的是，越来越多的<strong class="highlight">年轻人</strong>开始关注并学习秦腔。陕西省戏曲研究院等机构积极开展"秦腔进校园"活动，培养新一代观众与传承人。</p>
-                <p>数字化技术也为秦腔的保护与传播提供了新途径——经典剧目的高清录制、线上教学平台的搭建，让这门古老艺术得以<strong class="highlight">跨越时空限制</strong>，触达更广泛的受众。</p>
-            </div>
-            <div class="two-col" style="margin-top:20px;">
-                <div class="content-block">
-                    <h3>💡 创新探索</h3>
-                    <p>新时代的秦腔艺术家们在坚守传统精髓的同时，大胆进行创新尝试：新编历史剧融入现代舞台技术，实景演出结合文旅项目，跨界合作吸引年轻观众……秦腔正以<strong class="highlight">更加开放的姿态</strong>拥抱未来。</p>
-                    <span class="tag">新编剧目</span><span class="tag">文旅融合</span><span class="tag">数字传播</span><span class="tag">国际交流</span>
-                </div>
-                <div class="content-block">
-                    <h3>🌍 走向世界</h3>
-                    <p>秦腔作为中国文化的代表之一，多次走出国门，在世界各地的舞台上亮相。从巴黎到纽约，从东京到悉尼，秦腔以其独特的艺术魅力征服了海外观众，成为<strong class="highlight">讲好中国故事</strong>的重要载体。</p>
-                </div>
-            </div>
-            <div class="quote-block" style="text-align:center;">
-                传承不是守旧，创新不是忘本。<br>让秦腔这棵千年古树，在新时代的土壤中绽放出更加绚烂的花朵。
-            </div>
-        </section>
-
-        <!-- 页脚 -->
-        <footer class="site-footer">
-            <p>🎭 秦腔 — 国家级非物质文化遗产 | 大秦之音 · 华夏正声 🎭</p>
-            <p style="margin-top:4px;opacity:0.6;">弘扬中华优秀传统文化 · 让世界听见秦腔</p>
-        </footer>
-    </div>
-
-    <!-- 返回顶部按钮 -->
-    <button class="back-to-top" id="backToTop" title="返回顶部" aria-label="返回顶部">⬆</button>
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
 
     <script>
         (function() {
-            // ============ 元素引用 ============
-            const navItems = document.querySelectorAll('.nav-item');
-            const pages = document.querySelectorAll('.page');
-            const mainNav = document.getElementById('mainNav');
-            const backToTopBtn = document.getElementById('backToTop');
-            const pageContainer = document.getElementById('pageContainer');
-            const navToggleBtn = document.getElementById('navToggleBtn');
-            const homeCards = document.querySelectorAll('.home-card[data-nav]');
+            // ============ 自定义光标 ============
+            const cursor = document.getElementById('customCursor');
+            const isNarrow = window.matchMedia('(max-width: 1100px)').matches;
 
-            // ============ 页面切换函数 ============
-            function switchPage(pageName) {
-                // 更新导航激活状态
-                navItems.forEach(item => {
-                    const isActive = item.getAttribute('data-page') === pageName;
-                    item.classList.toggle('active', isActive);
-                    if (isActive) {
-                        item.setAttribute('aria-current', 'page');
-                    } else {
-                        item.removeAttribute('aria-current');
-                    }
+            if (!isNarrow) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
                 });
+                document.addEventListener('mousedown', () => cursor.classList.add('clicking'));
+                document.addEventListener('mouseup', () => cursor.classList.remove('clicking'));
 
-                // 切换页面
-                pages.forEach(page => {
-                    const isTarget = page.getAttribute('data-page') === pageName;
-                    if (isTarget) {
-                        page.classList.add('active');
-                        // 重新触发动画
-                        page.style.animation = 'none';
-                        page.offsetHeight; // 触发回流
-                        page.style.animation = 'pageFadeIn 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards';
-                    } else {
-                        page.classList.remove('active');
-                    }
+                const hoverTargets = document.querySelectorAll(
+                    'a, button, .btn, .feature-card, .repertoire-card, .artist-card, .mask-item, .history-img-card, .timeline-node, .stat-card, .scroll-indicator, .hero-placeholder-img, .img-placeholder'
+                );
+                hoverTargets.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
                 });
-
-                // 滚动到页面顶部
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                // 在移动端关闭导航（如果展开的话）
-                if (window.innerWidth <= 900 && navToggleBtn.classList.contains('open')) {
-                    toggleMobileNav(false);
-                }
-
-                // 更新URL hash
-                if (history.pushState) {
-                    const newHash = pageName === 'home' ? '' : '#' + pageName;
-                    const currentHash = window.location.hash.replace('#', '');
-                    if (currentHash !== pageName && !(pageName === 'home' && currentHash === '')) {
-                        history.pushState({ page: pageName }, '', newHash || window.location.pathname);
-                    }
-                }
+            } else {
+                cursor.style.display = 'none';
             }
 
-            // ============ 导航点击事件 ============
-            navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const pageName = this.getAttribute('data-page');
-                    if (pageName) {
-                        switchPage(pageName);
-                    }
-                });
-            });
+            // ============ 导航栏滚动效果 ============
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.getElementById('backToTop');
+            const navLinks = document.querySelectorAll('.nav-links li a');
 
-            // ============ 首页卡片点击跳转 ============
-            homeCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const pageName = this.getAttribute('data-nav');
-                    if (pageName) {
-                        switchPage(pageName);
-                    }
-                });
-                // 键盘可访问性
-                card.setAttribute('tabindex', '0');
-                card.setAttribute('role', 'button');
-                card.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const pageName = this.getAttribute('data-nav');
-                        if (pageName) switchPage(pageName);
-                    }
-                });
-            });
-
-            // ============ 移动端导航切换 ============
-            function toggleMobileNav(forceState) {
-                const isOpen = forceState !== undefined ? forceState : !navToggleBtn.classList.contains(
-                    'open');
-                if (isOpen) {
-                    navToggleBtn.classList.add('open');
-                    mainNav.classList.add('mobile-expanded');
-                    navToggleBtn.setAttribute('aria-label', '关闭菜单');
+            function updateNavOnScroll() {
+                const scrollY = window.scrollY;
+                if (scrollY > 80) {
+                    navbar.classList.add('scrolled');
+                    backToTop.classList.add('visible');
                 } else {
-                    navToggleBtn.classList.remove('open');
-                    mainNav.classList.remove('mobile-expanded');
-                    navToggleBtn.setAttribute('aria-label', '展开导航菜单');
+                    navbar.classList.remove('scrolled');
+                    backToTop.classList.remove('visible');
+                }
+                const sections = document.querySelectorAll('section[id]');
+                let currentSection = 'home';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 160;
+                    const sectionHeight = section.offsetHeight;
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-nav') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            window.addEventListener('scroll', updateNavOnScroll, { passive: true });
+            updateNavOnScroll();
+
+            // ============ 回到顶部 ============
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ============ 滚动揭示动画 ============
+            const revealElements = document.querySelectorAll('.reveal');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.1
+            };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            revealElements.forEach(el => observer.observe(el));
+
+            // ============ 英雄区粒子效果 ============
+            const particlesContainer = document.getElementById('heroParticles');
+            if (particlesContainer) {
+                for (let i = 0; i < 60; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDuration = (4.5 + Math.random() * 11) + 's';
+                    particle.style.animationDelay = Math.random() * 9 + 's';
+                    particle.style.width = (1.5 + Math.random() * 3) + 'px';
+                    particle.style.height = particle.style.width;
+                    if (Math.random() > 0.65) {
+                        particle.style.background = '#e0c88a';
+                    }
+                    particlesContainer.appendChild(particle);
                 }
             }
 
-            navToggleBtn.addEventListener('click', function() {
-                toggleMobileNav();
-            });
-
-            // 点击页面区域关闭移动端导航
-            pageContainer.addEventListener('click', function(e) {
-                if (navToggleBtn.classList.contains('open') &&
-                    !e.target.closest('.main-nav') &&
-                    !e.target.closest('.nav-toggle-btn')) {
-                    toggleMobileNav(false);
-                }
-            });
+            // ============ 初始触发英雄区可见元素 ============
+            setTimeout(() => {
+                document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add(
+                'visible'));
+            }, 150);
 
             // ============ 键盘导航 ============
-            document.addEventListener('keydown', function(e) {
-                // 数字键1-7快速切换页面
-                const keyMap = {
-                    '1': 'home',
-                    '2': 'history',
-                    '3': 'art',
-                    '4': 'repertoire',
-                    '5': 'masters',
-                    '6': 'visual',
-                    '7': 'future'
-                };
-                if (e.key >= '1' && e.key <= '7' && !e.target.closest('input, textarea, [contenteditable]')) {
-                    e.preventDefault();
-                    switchPage(keyMap[e.key]);
-                }
-                // Escape关闭移动端导航
-                if (e.key === 'Escape' && navToggleBtn.classList.contains('open')) {
-                    toggleMobileNav(false);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelector('.nav-links')?.classList.remove('active');
                 }
             });
 
-            // ============ 滚动监听 ============
-            let scrollTimeout;
-            window.addEventListener('scroll', function() {
-                // 导航栏样式
-                if (window.scrollY > 30) {
-                    mainNav.classList.add('scrolled');
-                } else {
-                    mainNav.classList.remove('scrolled');
-                }
-
-                // 返回顶部按钮
-                if (window.scrollY > 400) {
-                    backToTopBtn.classList.add('visible');
-                } else {
-                    backToTopBtn.classList.remove('visible');
-                }
-
-                // 防抖处理
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    // 可以在这里添加滚动相关的逻辑
-                }, 100);
-            }, { passive: true });
-
-            // ============ 返回顶部 ============
-            backToTopBtn.addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            // ============ 平滑导航点击 ============
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        const navHeight = navbar.offsetHeight;
+                        const targetPosition = target.getBoundingClientRect().top + window
+                            .scrollY - navHeight - 10;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
 
-            // ============ URL Hash 处理 ============
-            function handleHashChange() {
-                const hash = window.location.hash.replace('#', '');
-                if (hash && document.getElementById('page-' + hash)) {
-                    switchPage(hash);
-                } else if (!hash) {
-                    switchPage('home');
-                }
-            }
-
-            window.addEventListener('hashchange', handleHashChange);
-            window.addEventListener('popstate', function(e) {
-                if (e.state && e.state.page) {
-                    switchPage(e.state.page);
-                } else {
-                    handleHashChange();
-                }
-            });
-
-            // 初始加载时检查hash
-            const initialHash = window.location.hash.replace('#', '');
-            if (initialHash && document.getElementById('page-' + initialHash)) {
-                switchPage(initialHash);
-            }
-
-            // ============ 响应式调整 ============
-            function handleResize() {
-                if (window.innerWidth > 900 && navToggleBtn.classList.contains('open')) {
-                    toggleMobileNav(false);
-                }
-            }
-            window.addEventListener('resize', handleResize);
-
-            // ============ 初始化 ============
-            // 触发一次滚动检测
-            window.dispatchEvent(new Event('scroll'));
-
-            console.log('🎭 秦腔主题页面已就绪');
-            console.log('  💡 提示：可使用键盘数字键 1-7 快速切换页面');
-            console.log('  📱 移动端请使用右上角按钮展开导航菜单');
-            console.log('  🏠 共7个页面：首页 + 6个详情页');
+            console.log('%c🎭 秦腔文化传承 %c| 横版桌面端已就绪',
+                'font-size:1.3rem;color:#b5343a;letter-spacing:2px;',
+                'font-size:0.9rem;color:#c9a96e;');
+            console.log('%c西北大地的千年吼声，永远回响在黄土高原之上',
+                'color:#6b5e4a;font-style:italic;');
         })();
     </script>
 </body>
